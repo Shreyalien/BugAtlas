@@ -1,246 +1,639 @@
-# 🐛 BugAtlas
+# 🐛 BUGATLAS // INVESTIGATION SYSTEM
 
-### An Interactive Incident Investigation Platform for Developers
+> **Every bug leaves evidence. Your job is to find it.**
 
-BugAtlas is a full-stack developer tool designed to make software bugs easier to **report, investigate, understand, and learn from**.
+BugAtlas is a gamified full-stack bug investigation platform built around one idea:
 
-Instead of treating a bug as just another ticket, BugAtlas turns incidents into structured investigation cases with clues, evidence, root causes, comments, and progress tracking.
+**Don't just fix the bug. Investigate it.**
 
----
-
-## ✨ Features
-
-### 🔎 Incident Investigation
-
-Create and investigate software incidents with structured information such as:
-
-* Title and description
-* Severity
-* Technology / stack
-* Status
-* Root cause
-* Solution
-* Investigation clues
-
-### 🗺️ Atlas Dashboard
-
-The Atlas dashboard provides a visual overview of the incident landscape, including:
-
-* Incident statistics
-* Active and critical incidents
-* Resolved cases
-* Evidence activity
-* Incident activity trends
-
-### 🧩 Evidence & Clues
-
-Each incident can contain investigation clues that help users move from:
-
-**Symptom → Evidence → Root Cause → Solution**
-
-### 💬 Comments
-
-Developers can discuss incidents, share findings, and document investigation progress.
-
-### 🏆 XP & Achievements
-
-Investigation activity contributes to XP and achievements, adding a lightweight gamification layer to the debugging process.
-
-### 📊 Analytics
-
-Track incident patterns and activity through visual statistics and dashboard insights.
-
-### 🔐 Authentication
-
-BugAtlas includes authentication and protected features using JWT-based authorization.
-
-### ⚡ Real-time Updates
-
-Real-time communication is supported through Socket.IO for selected application events.
+Instead of treating incidents as ordinary tickets, BugAtlas turns them into interactive technical cases. Investigators explore clues, inspect evidence, connect observations, collaborate through investigation notes, and work toward the root cause — while earning XP throughout the process.
 
 ---
 
-## 🧠 How It Works
+## `// SYSTEM OVERVIEW`
+
+Traditional bug tracking usually follows:
 
 ```text
-Report an Incident
-        ↓
-Describe the Symptoms
-        ↓
-Collect Clues & Evidence
-        ↓
-Investigate the Cause
-        ↓
-Identify Root Cause
-        ↓
-Document the Solution
-        ↓
-Resolve the Incident
+REPORT → ASSIGN → FIX → CLOSE
 ```
 
-The goal is to make debugging feel less like filling out a ticket and more like solving a technical case.
-
----
-
-## 🖥️ Tech Stack
-
-### Frontend
-
-* React
-* Vite
-* CSS
-* Recharts
-
-### Backend
-
-* Node.js
-* Express.js
-* Socket.IO
-
-### Database
-
-* SQLite
-
-### Authentication
-
-* JSON Web Tokens (JWT)
-
----
-
-## 📁 Project Structure
+BugAtlas introduces an investigation layer:
 
 ```text
-BugAtlas/
+INCIDENT
+   │
+   ├── CLUES
+   ├── EVIDENCE
+   ├── INVESTIGATION NOTES
+   ├── PROGRESS
+   └── COLLABORATION
+          │
+          ▼
+      ROOT CAUSE
+          │
+          ▼
+      RESOLUTION
+```
+
+The platform combines:
+
+- Bug / incident management
+- Interactive investigations
+- Technical evidence
+- Investigation notes and collaboration
+- XP and progression
+- Achievements
+- Leaderboards
+- Analytics
+- Real-time incident events
+- Role-based administration
+
+---
+
+## `// CORE FEATURES`
+
+### `[01] CASE BOARD`
+
+Browse active and resolved incidents through an investigation-focused case board.
+
+Each case can include:
+
+- Severity
+- Status
+- Environment
+- Category
+- Language
+- Framework
+- Tags
+- Investigation progress
+- Clues
+- Evidence
+- Root cause
+- Resolution
+
+---
+
+### `[02] INVESTIGATION MODE`
+
+Every case becomes an investigation.
+
+Instead of revealing everything immediately, information is progressively discovered.
+
+```text
+CASE BH-0001
+JWT EXPIRATION FAILURE
+
+STATUS     : INVESTIGATING
+SEVERITY   : CRITICAL
+PROGRESS   : ███████░░░ 72%
+
+[ CLUE 01 ]  Token Lifetime Mismatch
+             +25 XP
+
+[ CLUE 02 ]  Refresh Route
+             +35 XP
+
+[ CLUE 03 ]  Clock Drift
+             +45 XP
+```
+
+The investigator must connect the evidence instead of simply reading the answer.
+
+---
+
+### `[03] CLUE SYSTEM`
+
+Clues are the building blocks of an investigation.
+
+Each clue can reveal another piece of the incident:
+
+```text
+Observation
+     ↓
+Clue
+     ↓
+Technical Evidence
+     ↓
+Hypothesis
+     ↓
+Root Cause
+```
+
+Discovering clues contributes XP and investigation progress.
+
+---
+
+### `[04] EVIDENCE`
+
+Cases can contain technical evidence such as:
+
+```text
+SERVER LOGS
+API RESPONSES
+AUTHENTICATION DATA
+ERROR DETAILS
+SYSTEM OBSERVATIONS
+DIAGNOSTIC INFORMATION
+```
+
+The objective is to reason from evidence rather than simply guess the solution.
+
+---
+
+### `[05] XP & PROGRESSION`
+
+Investigation activity feeds into a progression system.
+
+```text
+DISCOVER CLUE
+      ↓
+    +XP
+      ↓
+LEVEL UP
+      ↓
+UNLOCK ACHIEVEMENT
+      ↓
+CLIMB LEADERBOARD
+```
+
+---
+
+### `[06] ACHIEVEMENTS`
+
+Investigators can unlock achievements based on their activity.
+
+Examples include:
+
+```text
+FIRST DISCOVERY
+Unlock your first piece of incident evidence.
+
+PATTERN RECOGNITION
+Discover 5 pieces of technical evidence.
+
+ROOT CAUSE MASTER
+Reach 500 investigation points.
+
+SENIOR INVESTIGATOR
+Reach Level 3.
+
+INCIDENT COMMANDER
+Earn 2,000+ technical XP.
+```
+
+---
+
+### `[07] COLLABORATION`
+
+Investigators can discuss cases, share findings, and document hypotheses through investigation notes.
+
+A case can evolve from:
+
+```text
+Individual Investigation
+          ↓
+Shared Findings
+          ↓
+Collaborative Analysis
+          ↓
+Root Cause
+```
+
+---
+
+### `[08] REAL-TIME EVENTS`
+
+Socket.IO powers real-time incident events across connected clients.
+
+Example:
+
+```text
+ADMIN
+  │
+  │ creates new case
+  ▼
+SERVER
+  │
+  │ Socket.IO event
+  ▼
+CONNECTED INVESTIGATORS
+  │
+  └── NEW INCIDENT DETECTED
+```
+
+Supported clients can receive new incident notifications without manually refreshing the application.
+
+---
+
+### `[09] ANALYTICS`
+
+The analytics layer provides an overview of the investigation network, including:
+
+- Total incidents
+- Critical incidents
+- Resolved incidents
+- Evidence / clue activity
+- Category distribution
+
+---
+
+### `[10] ADMIN CONTROL`
+
+Administrators can manage the investigation environment.
+
+Admin-level functionality includes protected case management and incident deletion.
+
+---
+
+## `// TECH STACK`
+
+| Layer | Technology |
+| --- | --- |
+| Frontend | React 19, Vite |
+| State Management | Zustand |
+| Animation | Framer Motion |
+| Icons | Lucide React |
+| Charts | Recharts |
+| HTTP Client | Axios |
+| Backend | Node.js, Express |
+| Database | SQLite |
+| Database Driver | Better-SQLite3 |
+| Authentication | JWT + bcryptjs |
+| Real-Time | Socket.IO |
+| Package Manager | npm |
+
+---
+
+## `// ARCHITECTURE`
+
+```text
+                         BUGATLAS
+                            │
+              ┌─────────────┴─────────────┐
+              │                           │
+              ▼                           ▼
+       ┌──────────────┐           ┌──────────────┐
+       │   React UI   │           │  Socket.IO   │
+       │              │           │    Events    │
+       │ Case Board   │           └──────┬───────┘
+       │ Investigate  │                  │
+       │ Analytics    │                  │
+       │ Leaderboard  │                  │
+       │ Achievements │                  │
+       └──────┬───────┘                  │
+              │                          │
+              │ REST API                 │
+              └──────────┬───────────────┘
+                         ▼
+                 ┌───────────────┐
+                 │    Express    │
+                 │     API       │
+                 ├───────────────┤
+                 │ Authentication│
+                 │ Cases         │
+                 │ Clues         │
+                 │ Evidence      │
+                 │ Progress      │
+                 │ Comments      │
+                 │ Statistics    │
+                 │ Achievements  │
+                 └───────┬───────┘
+                         │
+                         ▼
+                 ┌───────────────┐
+                 │    SQLite     │
+                 ├───────────────┤
+                 │ Users         │
+                 │ Cases         │
+                 │ Clues         │
+                 │ Progress      │
+                 │ Comments      │
+                 └───────────────┘
+```
+
+---
+
+## `// PROJECT STRUCTURE`
+
+```text
+bugatlas/
 │
 ├── client/
 │   ├── src/
+│   │   ├── api/
+│   │   │   └── client.js
+│   │   │
 │   │   ├── components/
+│   │   │   ├── CommandPalette.jsx
+│   │   │   ├── Header.jsx
+│   │   │   ├── Sidebar.jsx
+│   │   │   ├── StatCard.jsx
+│   │   │   ├── StatusBadge.jsx
+│   │   │   └── Toast.jsx
+│   │   │
 │   │   ├── pages/
-│   │   ├── services/
-│   │   └── ...
+│   │   │   ├── Achievements.jsx
+│   │   │   ├── Analytics.jsx
+│   │   │   ├── Auth.jsx
+│   │   │   ├── Cases.jsx
+│   │   │   ├── CreateCase.jsx
+│   │   │   ├── Investigation.jsx
+│   │   │   └── Leaderboard.jsx
+│   │   │
+│   │   ├── store/
+│   │   │   └── useStore.js
+│   │   │
+│   │   ├── App.jsx
+│   │   ├── main.jsx
+│   │   └── styles.css
 │   │
+│   ├── .env.example
+│   ├── index.html
 │   └── package.json
 │
 ├── server/
-│   ├── routes/
-│   ├── middleware/
-│   ├── database/
-│   └── ...
+│   ├── index.js
+│   └── package.json
 │
+├── .env.example
+├── .gitignore
 ├── package.json
+├── package-lock.json
 └── README.md
 ```
 
 ---
 
-## 🚀 Getting Started
+## `// LOCAL SETUP`
 
-### 1. Clone the repository
+### Requirements
+
+```text
+Node.js 20+
+npm
+Git
+```
+
+Check your environment:
+
+```bash
+node -v
+npm -v
+git --version
+```
+
+### Clone
 
 ```bash
 git clone https://github.com/Shreyalien/BugAtlas.git
-```
-
-### 2. Open the project
-
-```bash
 cd BugAtlas
 ```
 
-### 3. Install dependencies
+### Install all dependencies
+
+From the project root:
 
 ```bash
 npm install
+npm run install:all
 ```
 
-If the frontend and backend use separate dependencies, install them from their respective directories as required by the project structure.
+### Environment variables
 
-### 4. Start the application
+Create a `.env` file in the project root:
+
+```env
+PORT=5000
+JWT_SECRET=change-me-in-production
+CLIENT_ORIGIN=http://localhost:5173
+```
+
+Create `client/.env`:
+
+```env
+VITE_API_URL=http://localhost:5000/api
+```
+
+For production, use a strong secret and the correct deployed client origin.
+
+### Run
+
+From the project root:
 
 ```bash
 npm run dev
 ```
 
-The application will be available through the local development URL shown in the terminal.
+The development setup runs:
+
+```text
+Frontend → http://localhost:5173
+Backend  → http://localhost:5000
+```
+
+API health check:
+
+```text
+http://localhost:5000/api/health
+```
 
 ---
 
-## 🧪 Core Concepts
+## `// AUTHENTICATION`
 
-### Incident
+BugAtlas uses JWT-based authentication.
 
-A reported software problem that needs investigation.
+Authentication flow:
 
-### Clue
+```text
+REGISTER
+   ↓
+PASSWORD HASH
+   ↓
+LOGIN
+   ↓
+JWT ISSUED
+   ↓
+PROTECTED API REQUEST
+   ↓
+AUTHENTICATED USER
+```
 
-A piece of information that helps narrow down the cause of an incident.
+Passwords are hashed using `bcryptjs`.
 
-### Evidence
-
-A technical observation or finding collected during an investigation.
-
-### Root Cause
-
-The underlying reason an incident occurred.
-
-### Resolution
-
-The final fix or solution documented for the incident.
-
----
-
-## 🎯 Project Goals
-
-BugAtlas was built around a simple idea:
-
-> **Debugging is an investigation.**
-
-The project explores how traditional bug tracking can be combined with:
-
-* Interactive interfaces
-* Investigation workflows
-* Developer analytics
-* Gamification
-* Real-time collaboration
-
-The goal is to create a more engaging way to document and understand software failures.
+Protected API routes require a valid authentication token.
 
 ---
 
-## 🔮 Future Improvements
+## `// DATABASE`
 
-Possible future improvements include:
+BugAtlas currently uses SQLite for local development.
 
-* Advanced incident relationships
-* Dependency-based incident mapping
-* Better analytics
-* Team collaboration
-* Notification system
-* Advanced search and filtering
-* Incident timelines
-* AI-assisted root-cause analysis
-* Public incident knowledge base
+The backend creates the SQLite database automatically:
 
----
+```text
+server/
+└── bugatlas.db
+```
 
-## 📌 Project Status
-
-**Active Development**
-
-BugAtlas is a learning-focused full-stack project and continues to evolve with new features, improvements, and experiments.
+The database file should remain outside version control.
 
 ---
 
-## 👩‍💻 Author
+## `// REAL-TIME LAYER`
+
+BugAtlas uses two communication patterns:
+
+```text
+REST API
+   │
+   └── Persistent application data
+
+Socket.IO
+   │
+   └── Live incident events
+```
+
+REST handles the application's persistent data flow, while Socket.IO is used for supported live events such as newly created incidents.
+
+---
+
+## `// INVESTIGATION FLOW`
+
+```text
+┌───────────────┐
+│ SELECT CASE   │
+└───────┬───────┘
+        ↓
+┌───────────────┐
+│ READ INCIDENT │
+└───────┬───────┘
+        ↓
+┌───────────────┐
+│ FIND CLUES    │
+└───────┬───────┘
+        ↓
+┌───────────────┐
+│ ANALYZE DATA  │
+└───────┬───────┘
+        ↓
+┌───────────────┐
+│ WRITE FINDING │
+└───────┬───────┘
+        ↓
+┌───────────────┐
+│ ROOT CAUSE    │
+└───────┬───────┘
+        ↓
+┌───────────────┐
+│ RESOLVE CASE  │
+└───────────────┘
+```
+
+---
+
+## `// SECURITY`
+
+The project includes several basic security practices:
+
+- Password hashing with bcrypt
+- JWT authentication
+- Protected API endpoints
+- Role-based authorization
+- CORS configuration
+- Environment-based secrets
+- Database exclusion from Git
+
+Never commit real credentials, JWT secrets, or API keys.
+
+Keep local environment files untracked:
+
+```text
+.env
+.env.local
+client/.env
+```
+
+---
+
+## `// ROADMAP`
+
+```text
+[ ] GitHub Issues integration
+[ ] GitHub repository investigations
+[ ] Pull Request linking
+[ ] Automated log ingestion
+[ ] Stack trace analysis
+[ ] AI-assisted root-cause analysis
+[ ] Similar incident detection
+[ ] Investigation analytics
+[ ] Team workspaces
+[ ] Advanced notifications
+[ ] PostgreSQL production database
+[ ] Docker support
+[ ] Automated testing
+```
+
+---
+
+## `// WHY BUGATLAS?`
+
+Debugging is rarely:
+
+```text
+ERROR → FIX
+```
+
+Real investigations look more like:
+
+```text
+ERROR
+  +
+LOGS
+  +
+TIMELINE
+  +
+SYSTEM BEHAVIOR
+  +
+CODE CONTEXT
+  +
+HUMAN REASONING
+       │
+       ▼
+   ROOT CAUSE
+```
+
+BugAtlas is built around that reality.
+
+The platform turns the debugging process into a structured investigation where every clue contributes to a larger technical story.
+
+---
+
+## `// PROJECT STATUS`
+
+```text
+SYSTEM STATUS : ACTIVE DEVELOPMENT
+VERSION       : MVP
+TYPE          : FULL-STACK WEB APPLICATION
+```
+
+The current release focuses on the core investigation experience, authentication, case management, gamification, analytics, collaboration, and real-time incident events.
+
+---
+
+## `// AUTHOR`
 
 **Shreya Golder**
 
 Computer Science & Engineering
 
-GitHub: [@Shreyalien](https://github.com/Shreyalien)
+GitHub: **@Shreyalien**
 
 ---
 
-### Built to explore a different way of looking at bugs.
+## `// LICENSE`
 
-**Find the clue. Trace the failure. Understand the cause.**
+All rights reserved.
+
+This repository is shared for portfolio and educational viewing. The source code may not be reused, modified, redistributed, or commercially deployed without permission.
