@@ -7,6 +7,7 @@ import {
   Trophy,
   Award,
   PlusCircle,
+  Radar,
   X,
   ArrowRight,
 } from 'lucide-react';
@@ -30,6 +31,7 @@ export function CommandPalette({ isOpen, onClose, onSelect }) {
 
   const items = [
     { id: 'cases', label: 'Go to Incident Board', category: 'Navigation', icon: LayoutDashboard, shortcut: '1' },
+    { id: 'atlas', label: 'Open the interactive Atlas Map', category: 'Navigation', icon: Radar, shortcut: 'M' },
     { id: 'analytics', label: 'View System Intelligence & Analytics', category: 'Navigation', icon: BarChart3, shortcut: '2' },
     { id: 'leaderboard', label: 'View Team Leaderboard & XP', category: 'Navigation', icon: Trophy, shortcut: '3' },
     { id: 'achievements', label: 'View Badges & Milestones', category: 'Navigation', icon: Award, shortcut: '4' },

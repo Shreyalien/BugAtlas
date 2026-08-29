@@ -8,11 +8,13 @@ import {
   ShieldCheck,
   PlusCircle,
   Bug,
+  Radar,
 } from 'lucide-react';
 
 export function Sidebar({ page, setPage, user, logout }) {
   const navItems = [
     { id: 'cases', label: 'Incident Board', icon: LayoutDashboard, shortcut: '1' },
+    { id: 'atlas', label: 'Atlas Map', icon: Radar, shortcut: 'M' },
     { id: 'analytics', label: 'Intelligence', icon: BarChart3, shortcut: '2' },
     { id: 'leaderboard', label: 'Contributors', icon: Trophy, shortcut: '3' },
     { id: 'achievements', label: 'Milestones', icon: Award, shortcut: '4' },

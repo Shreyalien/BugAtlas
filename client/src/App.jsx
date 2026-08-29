@@ -15,6 +15,7 @@ import { Analytics } from './pages/Analytics';
 import { Leaderboard } from './pages/Leaderboard';
 import { Achievements } from './pages/Achievements';
 import { CreateCase } from './pages/CreateCase';
+import { Atlas } from './pages/Atlas';
 
 export function App() {
   const { token, user, login, logout, setUser } = useStore();
@@ -121,6 +122,18 @@ export function App() {
 
         <main className="content-viewport">
           <AnimatePresence mode="wait">
+            {page === 'atlas' && (
+              <motion.div
+                key="atlas"
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -6 }}
+                transition={{ duration: 0.15 }}
+              >
+                <Atlas cases={cases} onOpenCase={handleOpenCase} />
+              </motion.div>
+            )}
+
             {page === 'cases' && (
               <motion.div
                 key="cases"

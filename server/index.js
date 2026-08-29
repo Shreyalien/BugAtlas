@@ -181,6 +181,51 @@ function seedDatabase() {
     2
   ).lastInsertRowid;
 
+  const case4 = insertCase.run(
+    'Cache Stampede at the Edge',
+    'A product page becomes unstable when a popular cache key expires and hundreds of requests hit the origin at once.',
+    'HIGH',
+    'OPEN',
+    'Production',
+    'PERFORMANCE',
+    'Go',
+    'Redis',
+    'Synchronized cache expiry without request coalescing',
+    'Add stale-while-revalidate, jittered TTLs and request coalescing for hot keys.',
+    'cache,redis,latency,traffic',
+    2
+  ).lastInsertRowid;
+
+  const case5 = insertCase.run(
+    'Webhook Replay Storm',
+    'A partner retries the same webhook several times and the order service creates duplicate fulfillment jobs.',
+    'CRITICAL',
+    'INVESTIGATING',
+    'Production',
+    'BACKEND',
+    'TypeScript',
+    'Node.js',
+    'Webhook handler is not idempotent',
+    'Persist an idempotency key before side effects and make job creation transactional.',
+    'webhook,idempotency,queue,orders',
+    2
+  ).lastInsertRowid;
+
+  const case6 = insertCase.run(
+    'The Dark Mode Contrast Trap',
+    'A settings release passes visual QA but important form controls become almost unreadable in the dark theme.',
+    'MEDIUM',
+    'RESOLVED',
+    'Staging',
+    'FRONTEND',
+    'CSS',
+    'React',
+    'Theme token falls back to a low-contrast text value',
+    'Replace hard-coded fallback tokens with semantic theme variables and add contrast checks to CI.',
+    'css,accessibility,theme,contrast',
+    2
+  ).lastInsertRowid;
+
   const insertClue = db.prepare(
     'INSERT INTO clues (case_id, title, description, evidence, xp_reward, order_no) VALUES (?, ?, ?, ?, ?, ?)'
   );
@@ -196,6 +241,18 @@ function seedDatabase() {
     [case3, 'The missing cleanup', 'The effect has no teardown function', 'useEffect(() => addEventListener(...))\ncleanup: undefined', 30, 2],
     [case3, 'The heap fingerprint', 'Detached handlers remain reachable after navigation', 'Detached listeners: 9\nretained heap: 4.8 MB', 50, 3],
   ];
+
+  clues.push(
+    [case4, 'The hot key', 'Identify the product route receiving the sudden traffic spike', 'GET /product/42\ncache_hit: false\norigin_qps: 1180', 20, 1],
+    [case4, 'The synchronized expiry', 'Compare expiry timestamps across the busiest keys', 'TTL values: 0s, 0s, 0s, 1s\nrequest_coalescing: false', 30, 2],
+    [case4, 'The recovery path', 'Confirm that stale data can safely serve while the origin recovers', 'stale-while-revalidate: disabled\norigin p95: 4.8s', 50, 3],
+    [case5, 'The duplicate event', 'Compare delivery identifiers across the repeated webhook', 'event_id: wh_7842\nattempts: 1 → 2 → 3\nsame payload hash: true', 25, 1],
+    [case5, 'The side effect', 'Trace when the fulfillment job is created', 'INSERT job → payment check → commit\nidempotency_key: null', 35, 2],
+    [case5, 'The safe boundary', 'Find the point where duplicate delivery can be rejected', 'UNIQUE(order_id, event_id): missing\nqueue publish: after insert', 50, 3],
+    [case6, 'The token fallback', 'Inspect the computed text color for the affected control', 'color: #667085\nbackground: #111827\ncontrast ratio: 3.1:1', 20, 1],
+    [case6, 'The semantic token', 'Compare light and dark theme variables', '--text-muted used as primary label color', 30, 2],
+    [case6, 'The regression gate', 'Confirm the final accessibility check', 'axe contrast: 0 violations\nWCAG AA: pass', 50, 3]
+  );
 
   clues.forEach(clue => insertClue.run(...clue));
 }
@@ -379,7 +436,52 @@ app.post('/api/cases', requireAuth, (req, res) => {
     );
 
     const caseId = result.lastInsertRowid;
-    const insertClue = db.prepare(
+    const case4 = insertCase.run(
+    'Cache Stampede at the Edge',
+    'A product page becomes unstable when a popular cache key expires and hundreds of requests hit the origin at once.',
+    'HIGH',
+    'OPEN',
+    'Production',
+    'PERFORMANCE',
+    'Go',
+    'Redis',
+    'Synchronized cache expiry without request coalescing',
+    'Add stale-while-revalidate, jittered TTLs and request coalescing for hot keys.',
+    'cache,redis,latency,traffic',
+    2
+  ).lastInsertRowid;
+
+  const case5 = insertCase.run(
+    'Webhook Replay Storm',
+    'A partner retries the same webhook several times and the order service creates duplicate fulfillment jobs.',
+    'CRITICAL',
+    'INVESTIGATING',
+    'Production',
+    'BACKEND',
+    'TypeScript',
+    'Node.js',
+    'Webhook handler is not idempotent',
+    'Persist an idempotency key before side effects and make job creation transactional.',
+    'webhook,idempotency,queue,orders',
+    2
+  ).lastInsertRowid;
+
+  const case6 = insertCase.run(
+    'The Dark Mode Contrast Trap',
+    'A settings release passes visual QA but important form controls become almost unreadable in the dark theme.',
+    'MEDIUM',
+    'RESOLVED',
+    'Staging',
+    'FRONTEND',
+    'CSS',
+    'React',
+    'Theme token falls back to a low-contrast text value',
+    'Replace hard-coded fallback tokens with semantic theme variables and add contrast checks to CI.',
+    'css,accessibility,theme,contrast',
+    2
+  ).lastInsertRowid;
+
+  const insertClue = db.prepare(
       'INSERT INTO clues (case_id, title, description, evidence, xp_reward, order_no) VALUES (?, ?, ?, ?, ?, ?)'
     );
 

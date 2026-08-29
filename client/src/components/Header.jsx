@@ -3,6 +3,7 @@ import { Command, Search, User } from 'lucide-react';
 
 const PAGE_TITLES = {
   cases: 'Incident Board',
+  atlas: 'Atlas Map',
   investigate: 'Investigation Workbench',
   analytics: 'System Intelligence',
   leaderboard: 'Team Contributors',

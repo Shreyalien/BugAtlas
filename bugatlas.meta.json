@@ -1,0 +1,15 @@
+{
+  "name": "BugAtlas",
+  "version": "2.0.0-atlas",
+  "description": "Interactive incident investigation platform with a spatial failure atlas.",
+  "originality": "Original implementation and product concept; inspired by real engineering incident/debugging workflows, not copied from a single product.",
+  "stack": [
+    "React",
+    "Vite",
+    "Node.js",
+    "Express",
+    "SQLite",
+    "JWT",
+    "Socket.IO"
+  ]
+}

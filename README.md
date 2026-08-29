@@ -1,399 +1,427 @@
-# 🐛 BUGATLAS // INVESTIGATION SYSTEM
+# 🐛 BugAtlas — The Failure Atlas
 
-> **Every bug leaves evidence. Your job is to find it.**
+> **Don't just report the bug. Build the evidence trail.**
 
-BugAtlas is a gamified full-stack bug investigation platform built around one idea:
+BugAtlas is an original full-stack developer tool concept that turns software failures into **investigable technical cases**.
 
-**Don't just fix the bug. Investigate it.**
+It combines:
 
-Instead of treating incidents as ordinary tickets, BugAtlas turns them into interactive technical cases. Investigators explore clues, inspect evidence, connect observations, collaborate with others, and work toward the root cause — while earning XP throughout the process.
+- an interactive **Atlas Map** of failure domains
+- incident reporting
+- evidence-based clue discovery
+- root-cause investigation
+- collaboration/comments
+- XP, levels and milestones
+- engineering analytics
+- contributor leaderboard
+- realtime incident notifications
 
-```text
-┌──────────────────────────────────────────────────────────┐
-│                    BUGATLAS // OS                         │
-│                                                          │
-│   INCIDENT DETECTED                                      │
-│        ↓                                                 │
-│   INVESTIGATION STARTED                                  │
-│        ↓                                                 │
-│   CLUES DISCOVERED                                       │
-│        ↓                                                 │
-│   EVIDENCE ANALYZED                                      │
-│        ↓                                                 │
-│   ROOT CAUSE IDENTIFIED                                  │
-│        ↓                                                 │
-│   CASE RESOLVED                                          │
-└──────────────────────────────────────────────────────────┘
-```
-
----
-
-## `// SYSTEM OVERVIEW`
-
-Traditional bug tracking usually follows:
+The goal is not to copy a traditional Jira-style ticket system or a debugging game. The product is deliberately designed around a different mental model:
 
 ```text
-REPORT → ASSIGN → FIX → CLOSE
-```
-
-BugAtlas introduces an investigation layer:
-
-```text
-INCIDENT
-   │
-   ├── CLUES
-   │
-   ├── EVIDENCE
-   │
-   ├── TIMELINE
-   │
-   ├── INVESTIGATION NOTES
-   │
-   └── COLLABORATION
-          │
-          ▼
-      ROOT CAUSE
-          │
-          ▼
-      RESOLUTION
-```
-
-The platform combines:
-
-* Bug / incident management
-* Interactive investigations
-* Technical evidence
-* Collaborative debugging
-* XP and progression
-* Achievements
-* Leaderboards
-* Real-time events
-
----
-
-## `// CORE FEATURES`
-
-### `[01] CASE BOARD`
-
-Browse active and resolved incidents through an investigation-focused case board.
-
-Cases can contain:
-
-* Severity
-* Status
-* Environment
-* Category
-* Investigation progress
-* Evidence
-* Clues
-
----
-
-### `[02] INVESTIGATION MODE`
-
-Every case becomes an investigation.
-
-Instead of revealing everything immediately, information is progressively discovered.
-
-```text
-CASE BH-0001
-JWT EXPIRATION FAILURE
-
-STATUS     : INVESTIGATING
-SEVERITY   : CRITICAL
-PROGRESS   : ███████░░░ 72%
-
-[ CLUE 01 ]  Token Lifetime Mismatch
-             +25 XP
-
-[ CLUE 02 ]  Refresh Route
-             +35 XP
-
-[ CLUE 03 ]  Clock Drift
-             +45 XP
-```
-
-The investigator must connect the evidence instead of simply reading the answer.
-
----
-
-### `[03] CLUE SYSTEM`
-
-Clues are the building blocks of an investigation.
-
-Each clue can reveal another piece of the incident:
-
-```text
-Observation
-     ↓
-Clue
-     ↓
-Technical Evidence
-     ↓
-Hypothesis
-     ↓
-Root Cause
-```
-
-Discovering clues contributes XP and investigation progress.
-
----
-
-### `[04] EVIDENCE`
-
-Cases can contain technical evidence such as:
-
-```text
-SERVER LOGS
-API RESPONSES
-AUTHENTICATION DATA
-ERROR DETAILS
-SYSTEM OBSERVATIONS
-DIAGNOSTIC INFORMATION
-```
-
-The objective is to make the investigator reason from evidence rather than simply guess the solution.
-
----
-
-### `[05] XP & PROGRESSION`
-
-Investigation activity feeds into a progression system.
-
-Users can:
-
-```text
-DISCOVER CLUE
-      ↓
-    +XP
-      ↓
-LEVEL UP
-      ↓
-UNLOCK ACHIEVEMENT
-      ↓
-CLIMB LEADERBOARD
-```
-
----
-
-### `[06] ACHIEVEMENTS`
-
-Investigators can unlock achievements based on their activity.
-
-Examples:
-
-```text
-FIRST BLOOD
-Solve your first investigation.
-
-EVIDENCE COLLECTOR
-Discover 25 clues.
-
-NIGHT SHIFT
-Complete an investigation late at night.
-
+SYMPTOM
+   ↓
+SIGNAL
+   ↓
+HYPOTHESIS
+   ↓
+EVIDENCE
+   ↓
 ROOT CAUSE
-Successfully complete a critical case.
+   ↓
+VERIFIED FIX
+   ↓
+ENGINEERING MEMORY
 ```
 
 ---
 
-### `[07] COLLABORATION`
+## 01 — The original idea
 
-Investigators can discuss cases, share findings, and develop hypotheses through investigation notes.
+The core invention in this project is the **Failure Atlas**.
 
-A case can therefore evolve from:
-
-```text
-Individual Investigation
-          ↓
-Shared Findings
-          ↓
-Collaborative Analysis
-          ↓
-Root Cause
-```
-
----
-
-### `[08] REAL-TIME EVENTS`
-
-Socket.IO powers real-time events across connected clients.
-
-Example:
+Instead of displaying incidents as a flat list, BugAtlas groups failures into spatial system zones:
 
 ```text
-ADMIN
-  │
-  │ creates new case
-  ▼
-SERVER
-  │
-  │ Socket.IO event
-  ▼
-CONNECTED INVESTIGATORS
-  │
-  └── NEW INCIDENT DETECTED
-```
+                         BUGATLAS // ATLAS
 
-No manual refresh is required for supported real-time events.
-
----
-
-### `[09] ADMIN CONTROL`
-
-Administrators can manage the investigation environment.
-
-Admin functionality includes case management and platform-level controls.
-
----
-
-## `// TECH STACK`
-
-| Layer           | Technology       |
-| --------------- | ---------------- |
-| Frontend        | React, Vite      |
-| State           | Zustand          |
-| Animation       | Framer Motion    |
-| Icons           | Lucide React     |
-| Charts          | Recharts         |
-| HTTP            | Axios            |
-| Backend         | Node.js, Express |
-| Database        | SQLite           |
-| Database Driver | Better-SQLite3   |
-| Authentication  | JWT + bcryptjs   |
-| Real-Time       | Socket.IO        |
-| Package Manager | npm              |
-
----
-
-## `// ARCHITECTURE`
-
-```text
-                         BUGATLAS
+             ┌─────────────────────────────┐
+             │       FRONTEND              │
+             │   rendering / state / UX   │
+             └──────────────┬──────────────┘
                             │
-              ┌─────────────┴─────────────┐
-              │                           │
-              ▼                           ▼
-       ┌──────────────┐           ┌──────────────┐
-       │   React UI   │           │  Socket.IO   │
-       │              │           │    Events    │
-       │ Case Board   │           └──────┬───────┘
-       │ Investigate  │                  │
-       │ Evidence     │                  │
-       │ XP / Stats   │                  │
-       └──────┬───────┘                  │
-              │                          │
-              │ REST API                 │
-              └──────────┬───────────────┘
-                         ▼
-                 ┌───────────────┐
-                 │    Express    │
-                 │     API       │
-                 ├───────────────┤
-                 │ Auth          │
-                 │ Cases         │
-                 │ Clues         │
-                 │ Evidence      │
-                 │ XP            │
-                 │ Achievements  │
-                 │ Comments      │
-                 └───────┬───────┘
-                         │
-                         ▼
-                 ┌───────────────┐
-                 │    SQLite     │
-                 ├───────────────┤
-                 │ Users         │
-                 │ Cases         │
-                 │ Clues         │
-                 │ Evidence      │
-                 │ Progress      │
-                 │ Comments      │
-                 └───────────────┘
+       ┌────────────────────┼────────────────────┐
+       │                    │                    │
+       ▼                    ▼                    ▼
+ PERFORMANCE            FAILURE FIELD          BACKEND
+ cache / latency       active signals       APIs / data
+       │                    │                    │
+       └────────────────────┼────────────────────┘
+                            │
+                            ▼
+                        SECURITY
+                    auth / identity
 ```
+
+The map is intentionally abstract rather than pretending to be a real infrastructure graph. It gives the project its own visual language.
 
 ---
 
-## `// PROJECT STRUCTURE`
+# 02 — Six built-in incident examples
+
+These are **synthetic engineering scenarios**, created for the demo dataset. They are inspired by real classes of software failures, not copied from a company's private incident report.
+
+### Example 01 — JWT Session Ghosts
+
+**Domain:** Security  
+**Stack:** Java / Spring Boot  
+**Severity:** Critical
 
 ```text
-bugatlas/
-│
-├── client/
-│   ├── src/
-│   │   ├── App.jsx
-│   │   ├── api.js
-│   │   ├── store.js
-│   │   ├── main.jsx
-│   │   └── styles.css
-│   │
-│   ├── public/
-│   ├── index.html
-│   └── package.json
-│
-├── server/
-│   ├── db.js
-│   ├── index.js
-│   ├── middleware.js
-│   └── package.json
-│
-├── .gitignore
-├── package.json
-└── README.md
+Symptom
+Users log in successfully and are unexpectedly logged out later.
+
+Evidence
+→ token expiry mismatch
+→ refresh endpoint never called
+→ production clock drift
+
+Root cause
+Inconsistent session-expiry handling.
+
+Fix
+Refresh-token rotation + consistent expiry validation.
 ```
 
----
+### Example 02 — Payment Timeout Cascade
 
-## `// LOCAL SETUP`
-
-### Requirements
+**Domain:** Performance  
+**Stack:** JavaScript / Node.js  
+**Severity:** High
 
 ```text
-Node.js 20+
-npm
-Git
+Symptom
+Checkout becomes unreliable when a payment provider slows down.
+
+Evidence
+→ provider TTFB spikes
+→ request deadline is undefined
+→ retries multiply traffic
+
+Root cause
+Unbounded downstream waiting and retries.
+
+Fix
+Explicit deadlines + bounded retries + circuit breaking.
 ```
 
-Check your environment:
+### Example 03 — Dashboard Listener Leak
 
-```bash
-node -v
-npm -v
-git --version
+**Domain:** Frontend  
+**Stack:** TypeScript / React  
+**Severity:** Medium
+
+```text
+Symptom
+A long-running dashboard tab becomes progressively heavier.
+
+Evidence
+→ resize listeners: 1 → 4 → 9
+→ effect has no cleanup
+→ detached handlers retain heap memory
+
+Root cause
+Repeated event subscriptions.
+
+Fix
+Correct effect teardown and subscription ownership.
+```
+
+### Example 04 — Cache Stampede at the Edge
+
+**Domain:** Performance  
+**Stack:** Go / Redis  
+**Severity:** High
+
+```text
+Symptom
+A popular product page overloads the origin when its cache expires.
+
+Evidence
+→ cache hit rate collapses
+→ many hot keys expire together
+→ request coalescing is disabled
+
+Root cause
+Synchronized expiry without a stale-serving strategy.
+
+Fix
+Stale-while-revalidate + TTL jitter + request coalescing.
+```
+
+### Example 05 — Webhook Replay Storm
+
+**Domain:** Backend  
+**Stack:** TypeScript / Node.js  
+**Severity:** Critical
+
+```text
+Symptom
+One partner webhook produces duplicate fulfillment jobs.
+
+Evidence
+→ same event arrives multiple times
+→ event hash is identical
+→ no idempotency key is persisted
+
+Root cause
+Side effects are not protected by an idempotency boundary.
+
+Fix
+Persist idempotency keys before side effects and enforce uniqueness.
+```
+
+### Example 06 — The Dark Mode Contrast Trap
+
+**Domain:** Frontend  
+**Stack:** CSS / React  
+**Severity:** Medium
+
+```text
+Symptom
+Important controls become difficult to read in dark mode.
+
+Evidence
+→ semantic token falls back to muted text
+→ contrast ratio drops to 3.1:1
+→ final accessibility check catches the regression
+
+Root cause
+Incorrect theme-token mapping.
+
+Fix
+Semantic color tokens + automated contrast regression checks.
 ```
 
 ---
 
-### Clone
+# 03 — Is BugAtlas a real existing product?
 
-```bash
-git clone https://github.com/YOUR_USERNAME/bugatlas.git
-```
+**The exact BugAtlas implementation in this repository is original.**
 
-```bash
-cd bugatlas
-```
+However, the underlying problem space is real.
+
+Real engineering teams already use:
+
+- incident management
+- bug trackers
+- observability
+- root-cause analysis
+- postmortems
+- debugging exercises
+- reliability training
+- gamification
+
+There are also real products and projects that explore parts of this territory. For example, production debugging simulations and incident-response games already exist.
+
+So the correct portfolio claim is **not**:
+
+> "Nobody has ever made anything like this."
+
+That would be difficult to defend.
+
+The stronger and more honest claim is:
+
+> **"BugAtlas is my own product concept that combines incident investigation, evidence trails, spatial failure mapping and gamified learning into one developer experience."**
+
+That is the differentiation.
 
 ---
 
-### Install
+# 04 — What makes this version different?
+
+### Traditional bug tracker
+
+```text
+Bug
+↓
+Ticket
+↓
+Status
+↓
+Fix
+```
+
+### BugAtlas
+
+```text
+Incident
+↓
+Atlas Zone
+↓
+Symptoms
+↓
+Evidence
+↓
+Clues
+↓
+Hypotheses
+↓
+Root Cause
+↓
+Verified Fix
+↓
+XP / Learning Signal
+```
+
+The important difference is the **investigation journey**.
+
+---
+
+# 05 — Main product surfaces
+
+## Atlas Map
+
+Spatial overview of the failure field.
+
+Features:
+
+- zone filtering
+- incident density
+- severity signals
+- live search
+- clickable incidents
+- abstract system topology
+- animated scan/orbit effects
+
+## Incident Board
+
+Searchable incident inventory.
+
+Features:
+
+- severity filtering
+- category filtering
+- incident status
+- framework metadata
+- tags
+- quick investigation access
+
+## Investigation Workbench
+
+Every incident becomes a case.
+
+Features:
+
+- locked clues
+- evidence
+- XP rewards
+- progress tracking
+- root-cause context
+- comments
+- completion state
+
+## Intelligence
+
+Engineering-level analytics.
+
+Tracks:
+
+- incident volume
+- critical incidents
+- resolved incidents
+- category distribution
+- evidence activity
+
+## Contributors
+
+A lightweight engineering leaderboard based on investigation progress.
+
+## Milestones
+
+Achievement system based on evidence discovery and investigations.
+
+---
+
+# 06 — Technical architecture
+
+```text
+┌──────────────────────────────────────┐
+│              React UI                │
+│                                      │
+│ Atlas • Cases • Investigation        │
+│ Analytics • Leaderboard • Achievements│
+└──────────────────┬───────────────────┘
+                   │ REST / Socket.IO
+                   ▼
+┌──────────────────────────────────────┐
+│          Node.js + Express           │
+│                                      │
+│ Auth • Cases • Clues • Comments      │
+│ Stats • XP • Achievements            │
+└──────────────────┬───────────────────┘
+                   │
+                   ▼
+┌──────────────────────────────────────┐
+│          SQLite / better-sqlite3     │
+│                                      │
+│ Users • Cases • Clues • Progress     │
+│ Comments                             │
+└──────────────────────────────────────┘
+```
+
+### Frontend
+
+- React
+- Vite
+- Framer Motion
+- Zustand
+- Recharts
+- Lucide React
+- Axios
+
+### Backend
+
+- Node.js
+- Express
+- SQLite
+- better-sqlite3
+- JWT
+- bcrypt
+- Socket.IO
+
+---
+
+# 07 — Authentication
+
+Demo accounts:
+
+```text
+DETECTIVE
+Email: shreya@bugatlas.dev
+Password: shreya123
+
+ADMIN
+Email: admin@bugatlas.dev
+Password: admin123
+```
+
+For production deployment, change these credentials and provide a real `JWT_SECRET`.
+
+---
+
+# 08 — Run locally
+
+Requirements:
+
+- Node.js 20+ recommended
+- npm
+
+From the project root:
 
 ```bash
 npm install
-```
-
-Then install client and server dependencies:
-
-```bash
 npm run install:all
-```
-
----
-
-### Run
-
-```bash
 npm run dev
 ```
 
@@ -403,221 +431,119 @@ Frontend:
 http://localhost:5173
 ```
 
-Backend:
-
-```text
-http://localhost:5000
-```
-
-Health check:
+API:
 
 ```text
 http://localhost:5000/api/health
 ```
 
+The SQLite database is created automatically by the server.
+
 ---
 
-## `// DATABASE`
+# 09 — Environment variables
 
-BugAtlas currently uses SQLite for local development.
+Root `.env`:
 
-The database is generated by the backend and is intentionally excluded from version control.
-
-```text
-server/
-└── bughunt.db
+```env
+JWT_SECRET=replace-with-a-long-random-secret
+CLIENT_ORIGIN=http://localhost:5173
 ```
 
-For production deployments, the database layer can be migrated to PostgreSQL or another hosted relational database.
+Client `.env`:
 
----
-
-## `// AUTHENTICATION`
-
-The application uses JWT-based authentication.
-
-Authentication flow:
-
-```text
-REGISTER
-   ↓
-PASSWORD HASH
-   ↓
-LOGIN
-   ↓
-JWT ISSUED
-   ↓
-PROTECTED API REQUEST
-   ↓
-AUTHENTICATED USER
+```env
+VITE_API_URL=http://localhost:5000/api
+VITE_SOCKET_URL=http://localhost:5000
 ```
 
-Passwords are hashed using `bcryptjs`.
-
-Protected routes require a valid authentication token.
+The application also contains development-safe fallbacks so a fresh local run does not fail simply because an `.env` file is missing.
 
 ---
 
-## `// REAL-TIME LAYER`
+# 10 — Portfolio positioning
 
-BugAtlas uses two communication patterns:
+Don't describe BugAtlas as:
+
+> "A bug tracking website."
+
+That undersells the project.
+
+Use:
+
+> **BugAtlas — an interactive incident-investigation platform that turns software failures into evidence-driven technical cases.**
+
+And for a CV/project card:
+
+> Built a full-stack debugging platform with interactive failure mapping, clue-based investigation, JWT authentication, realtime incident events, analytics, collaboration, XP progression and SQLite persistence.
+
+---
+
+# 11 — Why this is a strong portfolio project
+
+BugAtlas demonstrates more than frontend styling.
+
+It gives you talking points around:
+
+- REST API design
+- authentication
+- authorization
+- database schema design
+- relational data
+- CRUD operations
+- state management
+- realtime communication
+- search and filtering
+- analytics
+- gamification
+- UX architecture
+- information visualization
+- error handling
+- product thinking
+
+The visual layer gets attention.
+
+The investigation model gives you something technical to discuss.
+
+---
+
+# 12 — Roadmap for the next version
+
+The current repository intentionally stays achievable as a student-built full-stack project.
+
+Strong future upgrades:
 
 ```text
-REST API
+V2
+├── Evidence graph
+├── Hypothesis scoring
+├── Incident timeline
+├── Similar-case recommendations
+├── Postmortem generator
+├── GitHub issue import
+├── Markdown/code evidence
+├── Team workspaces
+└── Public investigation links
+```
+
+The most valuable next feature would be the **Evidence Graph**:
+
+```text
+Symptom
    │
-   └── Persistent application data
-
-Socket.IO
+   ├── supports → Hypothesis A
    │
-   └── Live application events
+   ├── contradicts → Hypothesis B
+   │
+   └── leads to → Evidence C
+                         │
+                         └── confirms → Root Cause
 ```
 
-This separation keeps the core data flow predictable while allowing real-time functionality where it provides value.
+That would push BugAtlas from a polished student project toward a genuinely distinctive developer-tool concept.
 
 ---
 
-## `// INVESTIGATION FLOW`
+## License
 
-```text
-┌───────────────┐
-│ SELECT CASE   │
-└───────┬───────┘
-        ↓
-┌───────────────┐
-│ READ INCIDENT │
-└───────┬───────┘
-        ↓
-┌───────────────┐
-│ FIND CLUES    │
-└───────┬───────┘
-        ↓
-┌───────────────┐
-│ ANALYZE DATA  │
-└───────┬───────┘
-        ↓
-┌───────────────┐
-│ WRITE FINDING │
-└───────┬───────┘
-        ↓
-┌───────────────┐
-│ ROOT CAUSE    │
-└───────┬───────┘
-        ↓
-┌───────────────┐
-│ RESOLVE CASE  │
-└───────────────┘
-```
-
----
-
-## `// SECURITY`
-
-The project follows several basic security practices:
-
-* Password hashing with bcrypt
-* JWT authentication
-* Protected API endpoints
-* Role-based authorization
-* Environment-based configuration
-* Database files excluded from Git
-* Secrets excluded from version control
-
-Never commit real credentials or API keys.
-
-Example:
-
-```text
-.env
-.env.local
-```
-
-should remain untracked.
-
----
-
-## `// ROADMAP`
-
-BugAtlas is designed to grow beyond its current MVP.
-
-### Planned
-
-```text
-[ ] GitHub Issues integration
-[ ] GitHub repository investigations
-[ ] Pull Request linking
-[ ] Automated log ingestion
-[ ] Stack trace analysis
-[ ] AI-assisted root-cause analysis
-[ ] Similar incident detection
-[ ] Investigation analytics
-[ ] Team workspaces
-[ ] Case tagging
-[ ] Advanced notifications
-[ ] PostgreSQL production database
-[ ] Docker support
-[ ] Automated testing
-[ ] Production deployment
-```
-
----
-
-## `// WHY BUGATLAS?`
-
-Debugging is rarely:
-
-```text
-ERROR → FIX
-```
-
-Real investigations look more like:
-
-```text
-ERROR
-  +
-LOGS
-  +
-TIMELINE
-  +
-SYSTEM BEHAVIOR
-  +
-CODE CONTEXT
-  +
-HUMAN REASONING
-       │
-       ▼
-   ROOT CAUSE
-```
-
-BugAtlas is built around that reality.
-
-The platform turns the debugging process into a structured investigation where every clue contributes to a larger technical story.
-
----
-
-## `// PROJECT STATUS`
-
-```text
-SYSTEM STATUS : ACTIVE DEVELOPMENT
-VERSION       : MVP
-TYPE          : FULL-STACK WEB APPLICATION
-```
-
-The current release focuses on the core investigation experience, authentication, case management, gamification, collaboration, and real-time functionality.
-
----
-
-## `// AUTHOR`
-
-**Shreya Golder**
-
-Computer Science & Engineering
-
-GitHub: **@Shreyalien**
-
----
-
-## `// LICENSE`
-
-All rights reserved.
-
-This repository is shared for viewing and educational purposes. The code may not be reused, modified, redistributed, or commercially deployed without permission.
+This project is intended as a personal portfolio / learning project.
