@@ -61,10 +61,6 @@ The platform combines:
 
 A spatial topology view of where failures concentrate across architecture domains:
 
-<p align="center">
-  <img src="assets/atlas-map.png" alt="BugAtlas Spatial Failure Map" width="100%" />
-</p>
-
 - **Spatial Topology**: Visual failure mapping across **Frontend**, **Backend**, **Security**, and **Performance**.
 - **Real-Time Metrics**: Live incident density, active failure pressure, critical signal counters, and risk index calculations.
 - **Signal Stream**: Direct drill-down into active incidents within any selected domain.
