@@ -1,12 +1,16 @@
-# ≡ƒÉ¢ BUGATLAS // INVESTIGATION SYSTEM
+# 🐛 BUGATLAS // INVESTIGATION SYSTEM
 
 > **Every bug leaves evidence. Your job is to find it.**
+
+<p align="center">
+  <img src="assets/atlas-map.png" alt="BugAtlas Live System Map" width="100%" />
+</p>
 
 BugAtlas is a gamified full-stack bug investigation platform built around one idea:
 
 **Don't just fix the bug. Investigate it.**
 
-Instead of treating incidents as ordinary tickets, BugAtlas turns them into interactive technical cases. Investigators explore clues, inspect evidence, connect observations, collaborate through investigation notes, and work toward the root cause ΓÇö while earning XP throughout the process.
+Instead of treating incidents as ordinary tickets, BugAtlas turns them into interactive technical cases. Investigators explore clues, inspect evidence, connect observations, collaborate through investigation notes, and work toward the root cause — while earning XP throughout the process.
 
 ---
 
@@ -53,7 +57,21 @@ The platform combines:
 
 ## `// CORE FEATURES`
 
-### `[01] CASE BOARD`
+### `[01] LIVE SYSTEM ATLAS MAP`
+
+A spatial topology view of where failures concentrate across architecture domains:
+
+<p align="center">
+  <img src="assets/atlas-map.png" alt="BugAtlas Spatial Failure Map" width="100%" />
+</p>
+
+- **Spatial Topology**: Visual failure mapping across **Frontend**, **Backend**, **Security**, and **Performance**.
+- **Real-Time Metrics**: Live incident density, active failure pressure, critical signal counters, and risk index calculations.
+- **Signal Stream**: Direct drill-down into active incidents within any selected domain.
+
+---
+
+### `[02] CASE BOARD`
 
 Browse active and resolved incidents through an investigation-focused case board.
 
@@ -74,7 +92,7 @@ Each case can include:
 
 ---
 
-### `[02] INVESTIGATION MODE`
+### `[03] INVESTIGATION MODE`
 
 Every case becomes an investigation.
 
@@ -86,7 +104,7 @@ JWT EXPIRATION FAILURE
 
 STATUS     : INVESTIGATING
 SEVERITY   : CRITICAL
-PROGRESS   : ΓûêΓûêΓûêΓûêΓûêΓûêΓûêΓûæΓûæΓûæ 72%
+PROGRESS   : ███████░░░ 72%
 
 [ CLUE 01 ]  Token Lifetime Mismatch
              +25 XP
@@ -102,7 +120,7 @@ The investigator must connect the evidence instead of simply reading the answer.
 
 ---
 
-### `[03] CLUE SYSTEM`
+### `[04] CLUE SYSTEM`
 
 Clues are the building blocks of an investigation.
 
@@ -124,7 +142,7 @@ Discovering clues contributes XP and investigation progress.
 
 ---
 
-### `[04] EVIDENCE`
+### `[05] EVIDENCE`
 
 Cases can contain technical evidence such as:
 
@@ -141,7 +159,7 @@ The objective is to reason from evidence rather than simply guess the solution.
 
 ---
 
-### `[05] XP & PROGRESSION`
+### `[06] XP & PROGRESSION`
 
 Investigation activity feeds into a progression system.
 
@@ -159,7 +177,7 @@ CLIMB LEADERBOARD
 
 ---
 
-### `[06] ACHIEVEMENTS`
+### `[07] ACHIEVEMENTS`
 
 Investigators can unlock achievements based on their activity.
 
@@ -184,7 +202,7 @@ Earn 2,000+ technical XP.
 
 ---
 
-### `[07] COLLABORATION`
+### `[08] COLLABORATION`
 
 Investigators can discuss cases, share findings, and document hypotheses through investigation notes.
 
@@ -202,7 +220,7 @@ Root Cause
 
 ---
 
-### `[08] REAL-TIME EVENTS`
+### `[09] REAL-TIME EVENTS`
 
 Socket.IO powers real-time incident events across connected clients.
 
@@ -226,7 +244,7 @@ Supported clients can receive new incident notifications without manually refres
 
 ---
 
-### `[09] ANALYTICS`
+### `[10] ANALYTICS`
 
 The analytics layer provides an overview of the investigation network, including:
 
@@ -238,13 +256,13 @@ The analytics layer provides an overview of the investigation network, including
 
 ---
 
-### `[10] ADMIN & CREATOR CONTROL`
+### `[11] ADMIN & CREATOR CONTROL`
 
 Administrators and case creators can manage the investigation environment, including secure incident deletion and access control.
 
 ---
 
-### `[11] INCIDENT STATE LIFECYCLE & RESOLUTION BONUS`
+### `[12] INCIDENT STATE LIFECYCLE & RESOLUTION BONUS`
 
 Cases move through a live investigation lifecycle:
 
@@ -256,7 +274,7 @@ When investigators uncover all evidence layers and isolate the root cause, they 
 
 ---
 
-### `[12] AUTOMATED POSTMORTEM REPORT GENERATOR`
+### `[13] AUTOMATED POSTMORTEM REPORT GENERATOR`
 
 Turn technical findings into production-ready postmortems with a single click:
 
@@ -266,7 +284,7 @@ Turn technical findings into production-ready postmortems with a single click:
 
 ---
 
-### `[13] MULTI-CRITERIA INCIDENT FILTERING`
+### `[14] MULTI-CRITERIA INCIDENT FILTERING`
 
 Quickly navigate active outages through multi-dimensional filters:
 - **Severity**: Critical, High, Medium, Low
@@ -349,6 +367,9 @@ Quickly navigate active outages through multi-dimensional filters:
 ```text
 bugatlas/
 │
+├── assets/
+│   └── atlas-map.png
+│
 ├── client/
 │   ├── src/
 │   │   ├── api/
@@ -364,6 +385,7 @@ bugatlas/
 │   │   │
 │   │   ├── pages/
 │   │   │   ├── Achievements.jsx
+│   │   │   ├── Atlas.jsx
 │   │   │   ├── Analytics.jsx
 │   │   │   ├── Auth.jsx
 │   │   │   ├── Cases.jsx
