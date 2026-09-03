@@ -19,6 +19,7 @@ export function Cases({ cases = [], loading, onOpenCase, onCreateCase }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [severityFilter, setSeverityFilter] = useState('ALL');
   const [categoryFilter, setCategoryFilter] = useState('ALL');
+  const [statusFilter, setStatusFilter] = useState('ALL');
 
   const categories = useMemo(() => {
     const set = new Set();
@@ -42,9 +43,12 @@ export function Cases({ cases = [], loading, onOpenCase, onCreateCase }) {
       const matchesCategory =
         categoryFilter === 'ALL' || item.category === categoryFilter;
 
-      return matchesSearch && matchesSeverity && matchesCategory;
+      const matchesStatus =
+        statusFilter === 'ALL' || item.status === statusFilter;
+
+      return matchesSearch && matchesSeverity && matchesCategory && matchesStatus;
     });
-  }, [cases, searchQuery, severityFilter, categoryFilter]);
+  }, [cases, searchQuery, severityFilter, categoryFilter, statusFilter]);
 
   const criticalCount = cases.filter((c) => c.severity === 'CRITICAL').length;
   const resolvedCount = cases.filter((c) => c.status === 'RESOLVED').length;
@@ -125,6 +129,19 @@ export function Cases({ cases = [], loading, onOpenCase, onCreateCase }) {
               <option value="HIGH">High</option>
               <option value="MEDIUM">Medium</option>
               <option value="LOW">Low</option>
+            </select>
+          </div>
+
+          <div className="select-wrapper">
+            <select
+              className="select-input"
+              value={statusFilter}
+              onChange={(e) => setStatusFilter(e.target.value)}
+            >
+              <option value="ALL">All Statuses</option>
+              <option value="OPEN">Open</option>
+              <option value="INVESTIGATING">Investigating</option>
+              <option value="RESOLVED">Resolved</option>
             </select>
           </div>
 

@@ -436,52 +436,8 @@ app.post('/api/cases', requireAuth, (req, res) => {
     );
 
     const caseId = result.lastInsertRowid;
-    const case4 = insertCase.run(
-    'Cache Stampede at the Edge',
-    'A product page becomes unstable when a popular cache key expires and hundreds of requests hit the origin at once.',
-    'HIGH',
-    'OPEN',
-    'Production',
-    'PERFORMANCE',
-    'Go',
-    'Redis',
-    'Synchronized cache expiry without request coalescing',
-    'Add stale-while-revalidate, jittered TTLs and request coalescing for hot keys.',
-    'cache,redis,latency,traffic',
-    2
-  ).lastInsertRowid;
 
-  const case5 = insertCase.run(
-    'Webhook Replay Storm',
-    'A partner retries the same webhook several times and the order service creates duplicate fulfillment jobs.',
-    'CRITICAL',
-    'INVESTIGATING',
-    'Production',
-    'BACKEND',
-    'TypeScript',
-    'Node.js',
-    'Webhook handler is not idempotent',
-    'Persist an idempotency key before side effects and make job creation transactional.',
-    'webhook,idempotency,queue,orders',
-    2
-  ).lastInsertRowid;
-
-  const case6 = insertCase.run(
-    'The Dark Mode Contrast Trap',
-    'A settings release passes visual QA but important form controls become almost unreadable in the dark theme.',
-    'MEDIUM',
-    'RESOLVED',
-    'Staging',
-    'FRONTEND',
-    'CSS',
-    'React',
-    'Theme token falls back to a low-contrast text value',
-    'Replace hard-coded fallback tokens with semantic theme variables and add contrast checks to CI.',
-    'css,accessibility,theme,contrast',
-    2
-  ).lastInsertRowid;
-
-  const insertClue = db.prepare(
+    const insertClue = db.prepare(
       'INSERT INTO clues (case_id, title, description, evidence, xp_reward, order_no) VALUES (?, ?, ?, ?, ?, ?)'
     );
 
@@ -603,15 +559,76 @@ app.get('/api/achievements', requireAuth, (req, res) => {
   });
 });
 
-// Delete case (Admin only)
-app.delete('/api/cases/:id', requireAuth, requireAdmin, (req, res) => {
-  const id = Number(req.params.id);
-  const result = db.prepare('DELETE FROM cases WHERE id = ?').run(id);
+// Update case status (OPEN, INVESTIGATING, RESOLVED)
+app.patch('/api/cases/:id/status', requireAuth, (req, res) => {
+  const caseId = Number(req.params.id);
+  const status = String(req.body.status || '').toUpperCase().trim();
+  const validStatuses = ['OPEN', 'INVESTIGATING', 'RESOLVED'];
 
-  if (!result.changes) {
+  if (!Number.isInteger(caseId) || !validStatuses.includes(status)) {
+    return res.status(400).json({ message: 'Valid status (OPEN, INVESTIGATING, RESOLVED) is required' });
+  }
+
+  const existingCase = db.prepare('SELECT * FROM cases WHERE id = ?').get(caseId);
+  if (!existingCase) {
     return res.status(404).json({ message: 'Case not found' });
   }
 
+  const previousStatus = existingCase.status;
+  let xpAwarded = 0;
+
+  const updateTransaction = db.transaction(() => {
+    db.prepare('UPDATE cases SET status = ? WHERE id = ?').run(status, caseId);
+
+    if (status === 'RESOLVED' && previousStatus !== 'RESOLVED') {
+      xpAwarded = 100;
+      const user = db.prepare('SELECT * FROM users WHERE id = ?').get(req.user.id);
+      const newXp = (user.xp || 0) + xpAwarded;
+      const newLevel = calculateLevel(newXp);
+      db.prepare('UPDATE users SET xp = ?, level = ? WHERE id = ?').run(newXp, newLevel, user.id);
+    }
+  });
+
+  updateTransaction();
+
+  io.emit('case:status_changed', {
+    id: caseId,
+    status,
+    title: existingCase.title,
+    previousStatus,
+  });
+
+  if (status === 'RESOLVED') {
+    io.emit('case:resolved', {
+      id: caseId,
+      title: existingCase.title,
+      solver: req.user.name,
+    });
+  }
+
+  res.json({
+    ok: true,
+    caseId,
+    status,
+    xpAwarded,
+  });
+});
+
+// Delete case (Admin or Case Creator)
+app.delete('/api/cases/:id', requireAuth, (req, res) => {
+  const id = Number(req.params.id);
+  const existingCase = db.prepare('SELECT * FROM cases WHERE id = ?').get(id);
+
+  if (!existingCase) {
+    return res.status(404).json({ message: 'Case not found' });
+  }
+
+  if (req.user.role !== 'ADMIN' && existingCase.created_by !== req.user.id) {
+    return res.status(403).json({ message: 'Permission denied: only Admin or case creator can delete this incident' });
+  }
+
+  db.prepare('DELETE FROM cases WHERE id = ?').run(id);
+  io.emit('case:deleted', { id });
   res.json({ ok: true });
 });
 

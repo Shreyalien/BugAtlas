@@ -1,9 +1,14 @@
 node_modules/
 server/node_modules/
 client/node_modules/
-server/bugatlas.db
+server/bugatlas.db*
+*.db
+*.db-shm
+*.db-wal
 .env
 .env.*
 !.env.example
 dist/
+client/dist/
 .DS_Store
+

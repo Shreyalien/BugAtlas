@@ -60,6 +60,20 @@ export function App() {
       setTimeout(() => setToastMessage(''), 5000);
     });
 
+    socket.on('case:resolved', (payload) => {
+      setToastMessage(`Incident Solved: INC-${String(payload.id).padStart(3, '0')} (${payload.title})`);
+      loadData();
+      setTimeout(() => setToastMessage(''), 5000);
+    });
+
+    socket.on('case:status_changed', () => {
+      loadData();
+    });
+
+    socket.on('case:deleted', () => {
+      loadData();
+    });
+
     return () => socket.disconnect();
   }, [token, loadData]);
 
@@ -161,6 +175,7 @@ export function App() {
               >
                 <Investigation
                   data={selectedCase}
+                  user={user}
                   onBack={() => setPage('cases')}
                   onRefresh={handleRefreshCurrentCase}
                 />
